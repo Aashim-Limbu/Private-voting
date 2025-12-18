@@ -60,14 +60,29 @@ impl IdentityCommitment {
 fn test_basic_date_operations() {
     let birth_date = Date { year: 1990, month: 6, day: 15 };
 
-    // Test date validation
+
     assert(birth_date.is_valid());
 
-    // Test age calculation
-    let age = birth_date.age_in_years();
-    assert(age == 33); // Based on CURRENT_YEAR = 2024
 
-    // Test field encoding
+    let age = birth_date.age_in_years();
+    assert(age == 33);
+
+
     let field_value = birth_date.to_field();
     assert(field_value == 19900615);
+}
+#[test]
+fn test_identity_commitment_system() {
+    let birth_date = Date { year: 1995, month: 3, day: 20 };
+    let secret = 12345;
+
+    let identity = IdentityCommitment::new(birth_date, secret);
+    assert(identity.verify_commitment());
+
+    // Test minimum age proof
+    let proof = identity.prove_minimum_age(18);
+    assert(proof.is_valid); // Should be valid since age is 29
+
+    let proof_underage = identity.prove_minimum_age(30);
+    assert(!proof_underage.is_valid); // Should be invalid since age is 29
 }
