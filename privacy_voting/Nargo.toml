@@ -1,0 +1,7 @@
+[package]
+name = "privacy_voting"
+type = "bin"
+authors = ["Aashim"]
+
+[dependencies]
+
