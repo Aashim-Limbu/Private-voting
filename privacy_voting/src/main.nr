@@ -76,14 +76,13 @@ fn main(
     assert(birth_date.is_valid());
 
     let identity = IdentityCommitment::new(birth_date, secret);
-    
+
     assert(identity.commitment == expected_commitment);
 
-    let age = birth_date.age_in_years();
+    let proof = identity.prove_minimum_age(minimum_age);
 
-    let is_valid = age >= minimum_age;
-
-    is_valid
+    
+    proof.is_valid
 }
 
 #[test]
